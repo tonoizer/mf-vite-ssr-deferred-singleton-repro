@@ -19,7 +19,7 @@ Before #1357, the generated Vue `loadShare` wrapper applied the local fallback s
 TypeError: __mf_N is not a function
 ```
 
-(`N` is `0`, `1`, … — the generated named-export locals in the `loadShare` wrapper.)
+(`N` is a generated named-export local in the Vue `loadShare` wrapper — this run used `__mf_91`.)
 
 ## Versions
 
@@ -56,6 +56,23 @@ npm install --no-save @module-federation/vite@1.22.1   # or 1.23.2
 npm run build:ssr
 node scripts/ssr-render.mjs
 ```
+
+## Verified output
+
+`npm run verify` on Node 22.14.0 with the versions above:
+
+```text
+======== SUMMARY ========
+PASS  @module-federation/vite@1.22.1  expected=pass actual=pass
+PASS  @module-federation/vite@1.23.2  expected=fail actual=fail (__mf_N is not a function)
+
+Reproduced: 1.22.1 SSR OK, 1.23.2 TypeError: __mf_N is not a function
+```
+
+- **1.22.1** rendered `<h1 id="ssr-ok">SSR shared vue singleton</h1>`
+- **1.23.2** threw `TypeError: __mf_91 is not a function` while importing the SSR `App` chunk
+
+Both versions ran in one job. The numeric suffix on `__mf_N` can change; the error shape is the regression.
 
 ## Why `hostInitInjectLocation: 'entry'`
 
