@@ -1,0 +1,21 @@
+{
+  "name": "mf-vite-ssr-deferred-singleton-repro",
+  "private": true,
+  "type": "module",
+  "description": "Minimal repro: @module-federation/vite SSR TypeError __mf_N is not a function after #1357",
+  "scripts": {
+    "build:ssr": "vite build --ssr src/entry-server.js --outDir dist/ssr",
+    "ssr:render": "node scripts/ssr-render.mjs",
+    "verify": "node scripts/verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "vue": "3.5.22"
+  },
+  "devDependencies": {
+    "@module-federation/vite": "1.22.1",
+    "vite": "7.1.12"
+  }
+}
